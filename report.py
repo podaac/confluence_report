@@ -235,7 +235,7 @@ def send_module_report(sos_bucket, run_type, bucket_report, bucket_failures, wor
             subject = f"!FAILURE! Confluence workflow report {date_str} UTC"
             message = "CONFLUENCE WORKFLOW FAILURE.\n\n" \
                 + f"To locate failures: See AWS Step Function: {workflow} with execution: {name}.\n\n" \
-                + "Please visit the following link for documentation on how to troubleshoot: [link].\n\n"
+                + "Please visit the following link for documentation on how to troubleshoot: [https://wiki.jpl.nasa.gov/display/PD/Confluence#Confluence-howtohandleerrors].\n\n"
         else:
             subject = f"Confluence workflow report {date_str} UTC"
             message = "CONFLUENCE WORKFLOW SUCCESSFULLY COMPLETED.\n\n"
@@ -283,7 +283,6 @@ def format_output(module_data, workflow):
 def get_sos_s3(sos_bucket, run_type, version):
     """Return name of granules created in SOS bucket."""
 
-    version = "0008"
     s3_files = S3.list_objects_v2(
         Bucket=sos_bucket,
         MaxKeys=1000,
@@ -293,12 +292,12 @@ def get_sos_s3(sos_bucket, run_type, version):
     if "Contents" in s3_files.keys():
         sos_s3_files = [sos_file["Key"].split("/")[-1] for sos_file in s3_files["Contents"]]
 
-        sos_s3_string = f"SOS granules stored in s3://{sos_bucket}\n\n"
+        sos_s3_string = f"SOS granules stored in s3://{sos_bucket}/{run_type}/{version}\n\n"
         for sos_s3_file in sos_s3_files:
             sos_s3_string += f"- {sos_s3_file}\n"
 
     else:
-        sos_s3_string = f"No SOS granules stored in S3://{sos_bucket}.\n"
+        sos_s3_string = f"No SOS granules stored in S3://{sos_bucket}/{run_type}/{version}.\n"
 
     return sos_s3_string
 
