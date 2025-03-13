@@ -1,6 +1,6 @@
 [project]
 name = "confluence-report"
-version = "1.0.0"
+version = "1.0.1a0"
 description = "Reports on Confluence workflow status"
 authors = [
     {name = "Nikki",email = "17799906+nikki-t@users.noreply.github.com"}
